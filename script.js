@@ -197,9 +197,10 @@ function ScreenController() {
             playerTwo.classList.toggle('active');
             if(playerOne.classList.value.includes('active')) playerOne.classList.toggle('active');
         }
+
         //every execution remove previous render before adding new one
         gameContainer.textContent = '';
-        //Useful teqchniuqe understand it
+
         board.forEach( (row, rowIndex) => {
             row.forEach((cell, columnIndex)=> {
                 const button = document.createElement('button');
@@ -218,6 +219,7 @@ function ScreenController() {
         const column = e.target.dataset.column;
 
         if(game.playRound(row, column)) {
+            updateScreen();
             endGame();
         } 
         updateScreen();
