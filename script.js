@@ -167,7 +167,7 @@ function GameController(player1 = 'player1', player2 = 'player2') {
 }
 
 function ScreenController() {
-    let game = GameController();
+    const game = GameController();
     const gameContainer = document.querySelector('.game-container');
     const winnerMessage = document.querySelector('.game-result');
 
