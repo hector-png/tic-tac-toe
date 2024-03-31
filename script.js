@@ -151,7 +151,7 @@ function GameController(player1 = 'player1', player2 = 'player2') {
     };
 
     const playRound = (row, column) => {
-        console.log(getCurrentPlayer())
+        // console.log(getCurrentPlayer())
         if(board.addMarker(currentPlayer.marker, row, column)) {
             if(board.findWinner()) {
                 return true;
@@ -160,26 +160,38 @@ function GameController(player1 = 'player1', player2 = 'player2') {
             }
         }
         //allows us to play in console by showing us game status
-        printNewRound();
+        // printNewRound();
     };
-    //Understand what is happening here with baord
+
+    //Understand what is happening here with baord object
     return {getPlayers, playRound, getCurrentPlayer, getBoard: board.getBoard};
 }
 
 function ScreenController() {
     const game = GameController();
+    const board = game.getBoard();
+
     const gameContainer = document.querySelector('.game-container');
+    const restartButton = document.querySelector('.restart');
     const winnerMessage = document.querySelector('.game-result');
 
     // const startGame = () => {}
 
-    // const restartGame = () => {}
+    const restartGame = () => {
+        board.forEach(row => 
+            row.forEach(cell =>
+            cell.changeValue(0)));
+            winnerMessage.classList.toggle('hide');
+            updateScreen();
+            gameContainer.addEventListener('click', addPlayerMarker);
+    }
 
-    const endGame = () => {
+    const displayWinner = () => {
         //missing logic for a tie
+        updateScreen();
         winnerMessage.innerText = `${game.getCurrentPlayer().name} wins!`;
         winnerMessage.classList.toggle('hide');
-        gameContainer.removeEventListener('click', clickHandler);
+        gameContainer.removeEventListener('click', addPlayerMarker);
     }
 
     const updateScreen = () => {
@@ -187,7 +199,6 @@ function ScreenController() {
         const playerTwo = document.querySelector('.two');
 
         //Using game methods
-        const board = game.getBoard();
         const activePlayer = game.getCurrentPlayer();
 
         if(activePlayer.marker === 'X') {
@@ -214,17 +225,17 @@ function ScreenController() {
         });
     };
 
-    const clickHandler = (e) => {
+    const addPlayerMarker = (e) => {
         const row = e.target.dataset.row;
         const column = e.target.dataset.column;
 
         if(game.playRound(row, column)) {
-            updateScreen();
-            endGame();
+            displayWinner();
         } 
         updateScreen();
     }
-    gameContainer.addEventListener('click', clickHandler);
+    restartButton.addEventListener('click', restartGame);
+    gameContainer.addEventListener('click', addPlayerMarker);
     updateScreen();
 }
 
