@@ -14,7 +14,16 @@
         </div>
 
         <div class="game-display">
-            <button class="start">Start!</button>
+            <form class="player-names" action="">
+                <label for="player1">
+                    <input type="text" name="player1" id="player1" placeholder="player 1" autofocus> 
+                </label>
+                <label for="player2">
+                    <input type="text" name="player2" id="player2" placeholder="player 2">
+                </label>
+                
+                <button type="submit" class="start">Start!</button>
+            </form>
             <button class="restart hide">Restart</button>
             <p class="game-result hide">Player Wins!</p>
 
