@@ -125,14 +125,14 @@ function cell() {
     return {changeValue, getValue}
 }
 
-function GameController(player1 = 'player1', player2 = 'player2') {
+function GameController() {
     const board = Gameboard();
 
     const players = [{
-        name: player1,
+        name: 'player1',
         marker: 'X',
     }, {
-        name: player2,
+        name: 'player2',
         marker: 'O',
     }];
 
@@ -164,7 +164,7 @@ function GameController(player1 = 'player1', player2 = 'player2') {
     };
 
     //Understand what is happening here with baord object
-    return {getPlayers, playRound, getCurrentPlayer, getBoard: board.getBoard};
+    return {switchPlayer, getPlayers, playRound, getCurrentPlayer, getBoard: board.getBoard};
 }
 
 function ScreenController() {
@@ -172,18 +172,37 @@ function ScreenController() {
     const board = game.getBoard();
 
     const gameContainer = document.querySelector('.game-container');
-    const restartButton = document.querySelector('.restart');
     const winnerMessage = document.querySelector('.game-result');
+    const restartButton = document.querySelector('.restart');
+    const startbutton = document.querySelector('.start');
 
-    // const startGame = () => {}
+    const startGame = (e) => {
+        e.preventDefault();
+        const playerNamesForm = document.querySelector('.player-names');
+        const playerNames = document.querySelectorAll('input');
+
+        if(playerNames[0].value && playerNames[1].value) {
+            game.getPlayers()[0].name = playerNames[0].value;
+            game.getPlayers()[1].name = playerNames[1].value;
+            updateScreen();
+        } else {
+            updateScreen();
+        };
+        playerNamesForm.classList.toggle('hide');
+        restartButton.classList.toggle('hide');
+    }
 
     const restartGame = () => {
         board.forEach(row => 
             row.forEach(cell =>
             cell.changeValue(0)));
-            winnerMessage.classList.toggle('hide');
-            updateScreen();
-            gameContainer.addEventListener('click', addPlayerMarker);
+
+        if(!winnerMessage.classList.value.includes('hide')) winnerMessage.classList.toggle('hide');
+
+        if(game.getCurrentPlayer().marker === 'O') game.switchPlayer();
+
+        updateScreen();
+        gameContainer.addEventListener('click', addPlayerMarker);
     }
 
     const displayWinner = () => {
@@ -198,9 +217,10 @@ function ScreenController() {
         const playerOne = document.querySelector('.one');
         const playerTwo = document.querySelector('.two');
 
-        //Using game methods
-        const activePlayer = game.getCurrentPlayer();
+        playerOne.innerText = game.getPlayers()[0].name;
+        playerTwo.innerText = game.getPlayers()[1].name;
 
+        const activePlayer = game.getCurrentPlayer();
         if(activePlayer.marker === 'X') {
             playerOne.classList.toggle('active');
             if(playerTwo.classList.value.includes('active')) playerTwo.classList.toggle('active');
@@ -234,9 +254,9 @@ function ScreenController() {
         } 
         updateScreen();
     }
+    startbutton.addEventListener('click', startGame);
     restartButton.addEventListener('click', restartGame);
     gameContainer.addEventListener('click', addPlayerMarker);
-    updateScreen();
 }
 
 const init = (ScreenController)();
