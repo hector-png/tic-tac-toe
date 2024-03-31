@@ -167,7 +167,7 @@ function GameController() {
     return {switchPlayer, getPlayers, playRound, getCurrentPlayer, getBoard: board.getBoard};
 }
 
-function ScreenController() {
+(function ScreenController() { 
     const game = GameController();
     const board = game.getBoard();
 
@@ -257,6 +257,4 @@ function ScreenController() {
     startbutton.addEventListener('click', startGame);
     restartButton.addEventListener('click', restartGame);
     gameContainer.addEventListener('click', addPlayerMarker);
-}
-
-const init = (ScreenController)();
+})();
