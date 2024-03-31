@@ -32,6 +32,25 @@
 .game-display {
     display: grid;
     grid-template-rows: auto 1fr 8fr;
+    padding: 15px;
+}
+
+.player-names {
+    place-self: center;
+    display: flex;
+    gap: 10px;
+}
+
+input {
+    font-size: 0.9rem;
+    padding: 5px;
+    border: 2px solid #334155;
+    border-radius: 10px;
+    outline-style: none;
+}
+
+input:focus {
+    border-color: #3b82f6;
 }
 
 .start,
@@ -44,8 +63,7 @@
     border-style: none;
     width: 150px;
     padding: 8px;
-    margin-top: 15px;
-    justify-self: center;
+    place-self: center;
 }
 
 .start:active,
@@ -66,7 +84,7 @@
     grid-template-rows: repeat(3, 1fr);
     height: 500px;
     width: 500px;
-    margin-top: 40px;
+    margin-top: 20px;
     border: 2px solid #334155;
 }
 
@@ -85,7 +103,7 @@
     text-align: center;
     width: 200px;
     padding: 10px;
-    margin-top: 8px;
+    margin-top: 15px;
     border: 2px solid #3b82f6;
     border-radius: 5px;
 }
